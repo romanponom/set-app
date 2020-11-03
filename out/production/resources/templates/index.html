@@ -16,12 +16,12 @@
         <tr th:each="user : ${users}">
             <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
-            <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
-            <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+            <td><button><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></button></td>
+            <td><button><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></button></td>
         </tr>
         </tbody>
     </table>
 </div>
-<p><a href="/signup">Add a new user</a></p>
+<button id="btn"><a href="/signup">Add a new user</a></button>
 </div>
 </html>

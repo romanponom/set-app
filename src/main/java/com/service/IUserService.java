@@ -7,6 +7,7 @@ import java.util.List;
 public interface IUserService {
     List<User> findAll();
     User getUser(Long id);
-    Long addOrUpdateUser(User user);
+    User addOrUpdateUser(User user);
     void deleteUser(User user);
+    User findById(Long id);
 }

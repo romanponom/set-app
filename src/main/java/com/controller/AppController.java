@@ -38,7 +38,7 @@ public class AppController {
             return "add-user";
         }
 
-        Long id = userService.addOrUpdateUser(user);
+        userService.addOrUpdateUser(user);
         model.addAttribute("users", userService.findAll());
         return "redirect:/";
     }
