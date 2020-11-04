@@ -10,4 +10,5 @@ public interface IUserService {
     User addOrUpdateUser(User user);
     void deleteUser(User user);
     User findById(Long id);
+    List<User> deleteAllUsers();
 }

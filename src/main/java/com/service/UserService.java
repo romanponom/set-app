@@ -41,5 +41,10 @@ public class UserService implements IUserService {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
-
+    @Override
+    public List<User> deleteAllUsers() {
+        List<User> users = (List<User>) userRepository.findAll();
+        userRepository.deleteAll();
+        return users;
+    }
 }

@@ -38,25 +38,32 @@ public class RestAppController {
         return user;
     }
 
-    @PostMapping("add-user")
+    @PostMapping("/add-user")
     @ResponseStatus(HttpStatus.CREATED)
     public User addUser(@RequestBody User user) {
         return userService.addOrUpdateUser(user);
     }
 
-    @PostMapping("update-user/{id}")
+    @PostMapping("/update-user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@RequestBody User user, @PathVariable Long id) {
         userService.findById(id);
         user.setId(id);
         return userService.addOrUpdateUser(user);
     }
-    @DeleteMapping("delete-user/{id}")
+
+    @DeleteMapping("/delete-user/{id}")
     @ResponseStatus(HttpStatus.OK)
     public User deleteUser(@PathVariable Long id) {
         User user = userService.findById(id);
         userService.deleteUser(user);
         return user;
+    }
+
+    @DeleteMapping("/delete-all-users")
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> deleteAllUsers() {
+        return userService.deleteAllUsers();
     }
 
 }

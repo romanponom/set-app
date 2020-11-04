@@ -14,8 +14,8 @@
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
-            <td th:text="${user.name}"></td>
-            <td th:text="${user.email}"></td>
+            <td id="name" th:text="${user.name}"></td>
+            <td id="email" th:text="${user.email}"></td>
             <td><button><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></button></td>
             <td><button><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></button></td>
         </tr>
