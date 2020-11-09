@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:switch="${users}">
+<h2 th:case="null">No users yet!</h2>
+<div th:case="*">
+    <h2>Users</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Validate</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td id="name" th:text="${user.name}"></td>
+            <td id="email" th:text="${user.email}"></td>
+            <td th:switch="${user.validated}">
+                <button th:case="false">
+                    <a th:href="@{/validate/{id}(id=${user.id})}">Validate</a></button>
+                <span th:case="true">Validated</span>
+            </td>
+            <td>
+                <button>
+                    <a th:href="@{/edit/{id}(id=${user.id})}">Edit</a>
+                </button>
+            </td>
+            <td><button><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<button id="btn"><a href="/signup">Add a new user</a></button>
+</div>
+</html>

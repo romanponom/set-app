@@ -1,13 +1,8 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.springframework.boot' version '2.3.5.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
 }
-
-group 'set-app'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenLocal()
@@ -15,19 +10,57 @@ repositories {
     maven { url 'http://repo.spring.io/libs-release' }
 }
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'com.h2database:h2'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.16'
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    group 'set-app'
+    version '1.0-SNAPSHOT'
 
-test {
-    useJUnitPlatform()
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'http://repo.spring.io/libs-release' }
+    }
+
+    ext {
+        set('springCloudVersion', "Hoxton.SR8")
+        set('springCloudStarterFeignVersion', "1.4.7.RELEASE")
+        set('feignOkhttpVersion', "10.2.0")
+        set('lombokVersion', "1.18.16")
+    }
+
+    dependencies {
+        implementation "org.springframework.boot:spring-boot-starter-web"
+        implementation "org.springframework.boot:spring-boot-starter-actuator"
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+        //implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+
+        implementation "org.springframework.cloud:spring-cloud-starter-config"
+        implementation "org.springframework.cloud:spring-cloud-starter-feign:${springCloudStarterFeignVersion}"
+        implementation "io.github.openfeign:feign-okhttp:${feignOkhttpVersion}"
+        implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server"
+        implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+
+        implementation "com.h2database:h2"
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+
+        implementation "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
