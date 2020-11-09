@@ -1,0 +1,73 @@
+version: "3.5"
+
+networks:
+  netete:
+    name: netete
+    driver: bridge
+
+services:
+  registration-server:
+    build:
+      registration-server/
+    hostname: registration-server
+    command:
+      java -jar /reg-serv.jar
+    ports:
+      - 8761:8761
+    expose:
+      - "8761"
+    networks:
+       - netete
+
+  db-service:
+    build:
+      db-service/
+    hostname: db-service
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://registration-server:8761/eureka
+    command:
+      java -jar /db-service.jar
+    ports:
+      - 8082:8082
+    networks:
+      - netete
+    depends_on:
+      - registration-server
+
+
+  validator-service:
+    build:
+      validator-service/
+    hostname: validator-service
+    environment:
+      db.service.url: http://db-service:8082
+      eureka.client.serviceUrl.defaultZone: http://registration-server:8761/eureka
+    command:
+      java -jar /validator-service.jar
+    ports:
+      - 8083:8083
+    networks:
+      - netete
+    depends_on:
+      - registration-server
+      - db-service
+
+  admin-service:
+    build: admin-service/
+    hostname: admin-service
+    environment:
+      db.service.url: http://db-service:8082
+      validator.service.url: http://validator-service:8083
+      eureka.client.serviceUrl.defaultZone: http://registration-server:8761/eureka
+    command:
+      java -jar /admin-service.jar
+    ports:
+      - 8084:8084
+    networks:
+      - netete
+    depends_on:
+      - registration-server
+      - db-service
+      - validator-service
+
+
