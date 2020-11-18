@@ -1,6 +1,7 @@
 package com.db.controller;
 
 import com.db.entity.User;
+import com.db.entity.ValidatedUser;
 import com.db.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +28,12 @@ public class DBRestController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/all")
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers() {
         return userService.findAll();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserById(@PathVariable Long id) {
         return userService.getUser(id);
     }
@@ -65,9 +67,11 @@ public class DBRestController {
         return userService.deleteAllUsers();
     }
 
-    @PatchMapping(value = "/validate-user", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/validate-user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public User validateUser(@RequestBody User user) {
+    public User validateUser(@PathVariable long id, @RequestBody ValidatedUser validated) {
+        User user = userService.getUser(id);
+        user.setValidated(validated.isValidated());
         userService.addOrUpdateUser(user);
         return user;
     }

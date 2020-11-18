@@ -1,9 +1,8 @@
 version: "3.5"
 
 networks:
-  netete:
-    name: netete
-    driver: bridge
+  set-network:
+    name: set-network
 
 services:
   registration-server:
@@ -17,7 +16,7 @@ services:
     expose:
       - "8761"
     networks:
-       - netete
+       - set-network
 
   db-service:
     build:
@@ -30,10 +29,9 @@ services:
     ports:
       - 8082:8082
     networks:
-      - netete
+      - set-network
     depends_on:
       - registration-server
-
 
   validator-service:
     build:
@@ -47,7 +45,7 @@ services:
     ports:
       - 8083:8083
     networks:
-      - netete
+      - set-network
     depends_on:
       - registration-server
       - db-service
@@ -64,7 +62,7 @@ services:
     ports:
       - 8084:8084
     networks:
-      - netete
+      - set-network
     depends_on:
       - registration-server
       - db-service

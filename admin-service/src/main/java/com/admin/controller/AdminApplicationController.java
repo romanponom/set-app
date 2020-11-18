@@ -3,6 +3,7 @@ package com.admin.controller;
 import com.admin.client.DBClient;
 import com.admin.client.ValidatorClient;
 import com.admin.entity.User;
+import com.admin.entity.ValidatedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,10 +82,9 @@ public class AdminApplicationController {
     }
 
     @PostMapping("/validate-user/{id}")
-    public String validateUser(@PathVariable long id, Model model) {
-        User user = dbClient.getUserById(id);
-        user.setValidated(true);
-        validatorClient.validateUserById(user);
+    public String validateUser(@PathVariable Long id, Model model) {
+        dbClient.getUserById(id);
+        validatorClient.validateUserById(id, new ValidatedUser(true));
         model.addAttribute("users", dbClient.getUsers());
         return "redirect:/";
     }
