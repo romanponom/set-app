@@ -3,5 +3,4 @@ include 'registration-server'
 include 'db-service'
 include 'admin-service'
 include 'validator-service'
-include 'sign-in-service'
 
