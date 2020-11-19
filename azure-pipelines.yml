@@ -4,13 +4,18 @@ trigger:
   - master
 
 stages:
-  - stage: "Build_app_stage"
-    displayName: "[STAGE] Run runBootJar gradle task"
+  - pool:
+      vmImage: 'ubuntu-latest'
+  - stage: "Compile_app_and_unit_tests"
+    displayName: "[STAGE] Compile application and run unit tests"
     jobs:
-      - job: "Build_app_job"
-        displayName: "[JOB] Run runBootJar gradle task"
-        pool:
-          vmImage: 'ubuntu-latest'
+      - job: "Compile_app"
+        displayName: "[JOB] Compile application"
         steps:
-          - script: gradle clean runBootJar
-            displayName: '[SCRIPT] Run runBootJar'
+          - script: gradle clean build
+            displayName: "[SCRIPT] Run gradle clean build"
+      - job: "Unit_test"
+        displayName: "[JOB] Run unit tests"
+        steps:
+          - script: gradle db-service:test
+            displayName: "[SCRIPT] Run unit test"
