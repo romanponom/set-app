@@ -5,12 +5,12 @@ trigger:
 
 stages:
   - stage: "Build_app_stage"
-    displayName: "[STAGE] Run runBootRun gradle task"
+    displayName: "[STAGE] Run runBootJar gradle task"
     jobs:
       - job: "Build_app_job"
-        displayName: "[JOB] Run runBootRun gradle task"
+        displayName: "[JOB] Run runBootJar gradle task"
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-          - script: gradle clean runBootRun
-            displayName: '[SCRIPT] Run runBootRun'
+          - script: gradle clean runBootJar
+            displayName: '[SCRIPT] Run runBootJar'
