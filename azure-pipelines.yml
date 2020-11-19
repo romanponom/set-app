@@ -1,14 +1,16 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+name: "set-pipeline"
 
 trigger:
-- master
+  - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-steps:
-- script: gradle clean runBootJar
-  displayName: 'Build project'
+stages:
+  - stage: "Build app stage"
+    displayName: "[STAGE] Run runBootRun gradle task"
+    jobs:
+      - job: "Build app job"
+        displayName: "[JOB] Run runBootRun gradle task"
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+          - script: gradle clean runBootRun
+            displayName: '[SCRIPT] Run runBootRun'
