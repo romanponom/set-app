@@ -4,7 +4,7 @@ import com.admin.client.DBClient;
 import com.admin.client.ValidatorClient;
 import com.admin.entity.User;
 import com.admin.entity.ValidatedUser;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,13 +16,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class AdminApplicationController {
 
-    @Autowired
-    private DBClient dbClient;
-
-    @Autowired
-    private ValidatorClient validatorClient;
+    private final DBClient dbClient;
+    private final ValidatorClient validatorClient;
 
     @GetMapping("/")
     public String homePage(Model model) {

@@ -3,6 +3,7 @@ package com.db.controller;
 import com.db.entity.User;
 import com.db.entity.ValidatedUser;
 import com.db.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,10 +24,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @Validated
+@RequiredArgsConstructor
 public class DBRestController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getUsers() {

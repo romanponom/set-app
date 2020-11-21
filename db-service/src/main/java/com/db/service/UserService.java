@@ -3,15 +3,15 @@ package com.db.service;
 import com.db.entity.User;
 import com.db.exception.UserNotFoundException;
 import com.db.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    @Autowired
     private UserRepository userRepository;
 
     @Override
