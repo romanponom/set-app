@@ -1,0 +1,13 @@
+server:
+  port: 8082
+
+eureka:
+  client:
+    enabled: false
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000

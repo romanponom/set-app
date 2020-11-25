@@ -1,0 +1,5 @@
+description = 'gateway-service'
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-zuul'
+}

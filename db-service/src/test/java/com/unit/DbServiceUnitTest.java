@@ -5,41 +5,42 @@ import com.db.controller.DBRestController;
 import com.db.entity.User;
 import com.db.repository.UserRepository;
 import com.db.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ActiveProfiles("test")
 @ContextConfiguration(classes = DBConnectionApplication.class)
-@WebMvcTest(DBRestController.class)
+@WebMvcTest(controllers = DBRestController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-public class WebLayerTest {
+public class DbServiceUnitTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -99,6 +100,18 @@ public class WebLayerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().is(HttpStatus.CREATED.value()))
                 .andExpect(content().string(response));
+    }
+
+    @Test
+    public void deleteUserTest() throws Exception {
+        user.setValidated(false);
+        user.setId(1);
+        ObjectMapper mapper = new ObjectMapper();
+        String request = mapper.writeValueAsString(user);
+
+        //mockMvc.perform(
+        //        delete("/api/delete-user/" + user.getId())
+        //)
     }
 
 }

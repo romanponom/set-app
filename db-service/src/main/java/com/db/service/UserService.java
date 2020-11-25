@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<User> findAll() {

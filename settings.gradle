@@ -3,4 +3,6 @@ include 'registration-server'
 include 'db-service'
 include 'admin-service'
 include 'validator-service'
+include 'config-server'
+include 'gateway-service'
 

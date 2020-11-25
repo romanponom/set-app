@@ -28,19 +28,22 @@ subprojects {
     ext {
         set('springCloudVersion', "Hoxton.SR8")
         set('springCloudStarterFeignVersion', "1.4.7.RELEASE")
-        set('feignOkhttpVersion', "10.2.0")
+        set('feignVersion', "11.0")
         set('lombokVersion', "1.18.16")
     }
 
     dependencies {
-        implementation "org.springframework.boot:spring-boot-starter-web"
+        implementation "org.springframework.boot:spring-boot-starter-webflux"
         implementation "org.springframework.boot:spring-boot-starter-actuator"
         implementation "org.springframework.boot:spring-boot-starter-data-jpa"
         //implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
 
         implementation "org.springframework.cloud:spring-cloud-starter-config"
-        implementation "org.springframework.cloud:spring-cloud-starter-feign:${springCloudStarterFeignVersion}"
-        implementation "io.github.openfeign:feign-okhttp:${feignOkhttpVersion}"
+        //implementation "org.springframework.cloud:spring-cloud-starter-feign:${springCloudStarterFeignVersion}"
+        implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
+        implementation "org.springframework.cloud:spring-cloud-starter-netflix-ribbon"
+        implementation "io.github.openfeign:feign-jackson:${feignVersion}"
+        implementation "io.github.openfeign:feign-httpclient:${feignVersion}"
         implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server"
         implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
 
@@ -48,6 +51,9 @@ subprojects {
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         }
+        //testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.1"
+        testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock"
+        testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
 
         implementation "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"

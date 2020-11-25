@@ -1,0 +1,22 @@
+server:
+  port: 8083
+
+eureka:
+  client:
+    enabled: false
+
+management:
+  endpoints:
+    web:
+      shutdown:
+        enabled: true
+endpoints:
+  shutdown:
+    enabled: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000
