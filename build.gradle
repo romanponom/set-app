@@ -36,6 +36,9 @@ subprojects {
         implementation "org.springframework.boot:spring-boot-starter-webflux"
         implementation "org.springframework.boot:spring-boot-starter-actuator"
         implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+        implementation "org.springframework.boot:spring-boot-starter-aop"
+        implementation "org.springframework.retry:spring-retry:1.2.4.RELEASE"
+
         //implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
 
         implementation "org.springframework.cloud:spring-cloud-starter-config"
@@ -68,7 +71,37 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        reports {
+            html.enabled true
+            junitXml.enabled = true
+        }
     }
+
+    sourceSets {
+        integration {
+            java.srcDir "$projectDir/src/integration/java"
+            resources.srcDir "$projectDir/src/integration/resources"
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+        }
+    }
+
+    configurations {
+        integrationImplementation.extendsFrom testImplementation
+        integrationRuntime.extendsFrom testRuntime
+    }
+
+    task integrationTest(type: Test) {
+        testClassesDirs = sourceSets.integration.output.classesDirs
+        classpath = sourceSets.integration.runtimeClasspath
+        useJUnitPlatform()
+        reports {
+            html.enabled true
+            junitXml.enabled = true
+        }
+    }
+
+    check.dependsOn integrationTest
 
     task runBootJar(dependsOn: bootJar) {}
 }

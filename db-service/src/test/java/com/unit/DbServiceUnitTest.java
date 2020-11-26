@@ -5,10 +5,9 @@ import com.db.entity.User;
 import com.db.exception.UserNotFoundException;
 import com.db.repository.UserRepository;
 import com.db.service.UserService;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -29,7 +28,6 @@ import static org.mockito.Mockito.when;
 
 @ContextConfiguration(classes = DBConnectionApplication.class)
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class DbServiceUnitTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(DbServiceUnitTest.class);
@@ -40,14 +38,17 @@ public class DbServiceUnitTest {
     @InjectMocks
     private UserService service;
 
-    private static final List<User> users = new ArrayList<>();
-    private static final User user = new User(2, "qqqq", "eeee@ww.ee", false);
+    private List<User> users;
+    private User user;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
+        users = new ArrayList<>();
+        user = new User(2, "qqqq", "eeee@ww.ee", false);
         users.add(new User(1, "admin", "admin@ww.ee", true));
         users.add(user);
     }
+
     @Test
     @DisplayName("[UNIT-TEST] Get all users")
     public void getAllUsersTest() {

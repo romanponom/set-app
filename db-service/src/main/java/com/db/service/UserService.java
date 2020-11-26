@@ -38,7 +38,7 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> deleteAllUsers() {
-        List<User> users = (List<User>) userRepository.findAll();
+        List<User> users = findAll();
         userRepository.deleteAll();
         return users;
     }

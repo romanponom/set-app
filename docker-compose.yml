@@ -5,67 +5,77 @@ networks:
     name: set-network
 
 services:
+  config-server:
+    build:
+      config-server/
+    hostname: config-server
+    ports:
+      - 8888:8888
+    networks:
+       - set-network
+
   registration-server:
     build:
       registration-server/
     hostname: registration-server
-    command:
-      java -jar /reg-serv.jar
     ports:
       - 8761:8761
-    expose:
-      - "8761"
     networks:
-       - set-network
+      - set-network
+    depends_on:
+      - config-server
 
   db-service:
     build:
       db-service/
     hostname: db-service
-    environment:
-      eureka.client.serviceUrl.defaultZone: http://registration-server:8761/eureka
-    command:
-      java -jar /db-service.jar
     ports:
       - 8082:8082
     networks:
       - set-network
     depends_on:
+      - config-server
       - registration-server
 
   validator-service:
     build:
       validator-service/
     hostname: validator-service
-    environment:
-      db.service.url: http://db-service:8082
-      eureka.client.serviceUrl.defaultZone: http://registration-server:8761/eureka
-    command:
-      java -jar /validator-service.jar
     ports:
       - 8083:8083
     networks:
       - set-network
     depends_on:
+      - config-server
       - registration-server
       - db-service
 
   admin-service:
     build: admin-service/
     hostname: admin-service
-    environment:
-      db.service.url: http://db-service:8082
-      validator.service.url: http://validator-service:8083
-      eureka.client.serviceUrl.defaultZone: http://registration-server:8761/eureka
-    command:
-      java -jar /admin-service.jar
     ports:
       - 8084:8084
     networks:
       - set-network
     depends_on:
+      - config-server
       - registration-server
       - db-service
       - validator-service
+
+  gateway-service:
+    build:
+      gateway-service/
+    hostname: gateway-service
+    ports:
+      - 8766:8766
+    networks:
+      - set-network
+    depends_on:
+      - config-server
+      - registration-server
+      - db-service
+      - validator-service
+      - admin-service
 
 

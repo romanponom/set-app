@@ -1,4 +1,4 @@
-package integration.test.config;
+package com.integration.config;
 
 import com.netflix.loadbalancer.Server;
 import com.netflix.loadbalancer.ServerList;

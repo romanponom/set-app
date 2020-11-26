@@ -1,9 +1,9 @@
-package integration.test;
+package com.integration;
 
+import com.integration.config.DbClientFeignConfig;
 import com.validator.client.DBClient;
 import com.validator.entity.User;
 import com.validator.entity.ValidatedUser;
-import integration.test.config.FeignConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,8 +11,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@ActiveProfiles("test")
-@SpringBootTest(classes = FeignConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("com/integration")
+@SpringBootTest(classes = DbClientFeignConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ValidatorIntegrationTest {
 
     @Autowired

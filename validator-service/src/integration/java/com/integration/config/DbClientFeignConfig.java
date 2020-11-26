@@ -1,4 +1,4 @@
-package integration.test.config;
+package com.integration.config;
 
 import com.validator.client.DBClient;
 import com.validator.entity.User;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Configuration
 @EnableAutoConfiguration
 @RibbonClient(name = "db-service", configuration = RibbonConfig.class)
-public class FeignConfig {
+public class DbClientFeignConfig {
 
     @PatchMapping("/api/validate-user/{id}")
     public User validateUser(@PathVariable("id") Long id, @RequestBody ValidatedUser validated) {

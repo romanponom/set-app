@@ -1,6 +1,8 @@
 package com.admin.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
@@ -14,6 +16,8 @@ import javax.validation.constraints.Size;
 @Data
 @ToString
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
