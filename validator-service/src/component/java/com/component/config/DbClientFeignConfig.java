@@ -1,4 +1,4 @@
-package com.integration.config;
+package com.component.config;
 
 import com.validator.client.DBClient;
 import com.validator.entity.User;

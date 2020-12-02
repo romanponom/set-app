@@ -1,6 +1,6 @@
-package com.integration;
+package com.component;
 
-import com.integration.config.DbClientFeignConfig;
+import com.component.config.DbClientFeignConfig;
 import com.validator.client.DBClient;
 import com.validator.entity.User;
 import com.validator.entity.ValidatedUser;
@@ -11,9 +11,9 @@ import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-@ActiveProfiles("com/integration")
+@ActiveProfiles("test")
 @SpringBootTest(classes = DbClientFeignConfig.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ValidatorIntegrationTest {
+public class ValidatorServiceComponentTest {
 
     @Autowired
     private DBClient client;

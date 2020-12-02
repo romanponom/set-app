@@ -1,12 +1,12 @@
-package com.integration;
+package com.component;
 
 import com.admin.client.DBClient;
 import com.admin.client.ValidatorClient;
 import com.admin.entity.User;
 import com.admin.entity.ValidatedUser;
+import com.component.config.DbServiceFeignConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.integration.config.DbServiceFeignConfig;
-import com.integration.config.ValidatorServiceFeignConfig;
+import com.component.config.ValidatorServiceFeignConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @SpringBootTest(classes = {DbServiceFeignConfig.class, ValidatorServiceFeignConfig.class},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AdminServiceIntegrationTest {
+public class AdminServiceComponentTest {
 
     @Autowired
     private DBClient dbClient;

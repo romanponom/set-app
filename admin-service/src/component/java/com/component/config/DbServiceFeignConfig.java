@@ -1,4 +1,4 @@
-package com.integration.config;
+package com.component.config;
 
 import com.admin.client.DBClient;
 import com.admin.entity.User;

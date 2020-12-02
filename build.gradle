@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.3.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
+    id "au.com.dius.pact" version "4.1.0"
 }
 
 repositories {
@@ -14,6 +15,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'au.com.dius.pact'
     group 'set-app'
     version '1.0-SNAPSHOT'
 
@@ -49,6 +51,8 @@ subprojects {
         implementation "io.github.openfeign:feign-httpclient:${feignVersion}"
         implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server"
         implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+        testImplementation "au.com.dius:pact-jvm-provider-junit5:4.0.10"
+        testImplementation "au.com.dius:pact-jvm-consumer-junit5:4.0.10"
 
         implementation "com.h2database:h2"
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -78,22 +82,22 @@ subprojects {
     }
 
     sourceSets {
-        integration {
-            java.srcDir "$projectDir/src/integration/java"
-            resources.srcDir "$projectDir/src/integration/resources"
+        component {
+            java.srcDir "$projectDir/src/component/java"
+            resources.srcDir "$projectDir/src/component/resources"
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
         }
     }
 
     configurations {
-        integrationImplementation.extendsFrom testImplementation
-        integrationRuntime.extendsFrom testRuntime
+        componentImplementation.extendsFrom testImplementation
+        componentRuntime.extendsFrom testRuntime
     }
 
-    task integrationTest(type: Test) {
-        testClassesDirs = sourceSets.integration.output.classesDirs
-        classpath = sourceSets.integration.runtimeClasspath
+    task componentTest(type: Test) {
+        testClassesDirs = sourceSets.component.output.classesDirs
+        classpath = sourceSets.component.runtimeClasspath
         useJUnitPlatform()
         reports {
             html.enabled true
@@ -101,7 +105,7 @@ subprojects {
         }
     }
 
-    check.dependsOn integrationTest
+    check.dependsOn componentTest
 
     task runBootJar(dependsOn: bootJar) {}
 }

@@ -1,1 +1,9 @@
 description = 'db-service'
+
+pact {
+    publish {
+        def path = "${project.projectDir}"
+        pactDirectory = path + '/pacts'
+        pactBrokerUrl = 'http://localhost:8282'
+    }
+}

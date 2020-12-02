@@ -1,4 +1,4 @@
-package com.integration;
+package com.component;
 
 import com.db.DBConnectionApplication;
 import com.db.controller.DBRestController;
@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = DBConnectionApplication.class)
 @WebMvcTest(controllers = DBRestController.class)
 @ExtendWith(MockitoExtension.class)
-public class DbRestControllerIntegrationTest {
+public class DbRestControllerComponentTest {
 
     @Autowired
     private MockMvc mockMvc;
