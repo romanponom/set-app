@@ -25,15 +25,35 @@ services:
     depends_on:
       - config-server
 
+  db-host:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=user
+      - MYSQL_USER=set-app
+      - MYSQL_PASSWORD=Password12345!
+    networks:
+      - set-network
+    ports:
+      - 3307:3306
+
   db-service:
     build:
       db-service/
     hostname: db-service
+    restart: on-failure
     ports:
       - 8082:8082
     networks:
       - set-network
+    environment:
+      - DATABASE_HOST=db-host
+      - DATABASE_USER=set-app
+      - DATABASE_PASSWORD=Password12345!
+      - DATABASE_NAME=user
+      - DATABASE_PORT=3306
     depends_on:
+      - db-host
       - config-server
       - registration-server
 

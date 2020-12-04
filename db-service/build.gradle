@@ -7,3 +7,9 @@ pact {
         pactBrokerUrl = 'http://localhost:8282'
     }
 }
+
+dependencies {
+    runtimeOnly 'mysql:mysql-connector-java'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-jdbc"
+}

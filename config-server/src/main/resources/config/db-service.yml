@@ -13,9 +13,37 @@ eureka:
 management:
   endpoints:
     web:
-      shutdown:
-        enabled: true
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
 endpoints:
   shutdown:
     enabled: true
 
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    dialect: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://db-host:3306/user?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
+    username: set-app
+    password: Password12345!
+    platform: mysql
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+      type: com.zaxxer.hikari.HikariDataSource
+
+logging:
+  pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+  level:
+    org:
+      hibernate:
+        SQL: debug
