@@ -16,7 +16,7 @@ out
 **/build/
 /.idea/
 /build-cache/
-**/gradle-wrapper.jar
+
 
 # Cache of project
 .gradletasknamecache
