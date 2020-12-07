@@ -9,8 +9,7 @@ stages:
     jobs:
       - job: "Compile_app"
         displayName: "[JOB] Compile application"
-        pool:
-          vmImage: 'ubuntu-latest'
+        pool: "Windows_Pool"
         steps:
           - script: gradle clean build
             displayName: "[SCRIPT] Run gradle clean build"
