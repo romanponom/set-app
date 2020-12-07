@@ -8,6 +8,8 @@ stages:
     displayName: "[STAGE] Compile application and run unit tests"
     jobs:
       - job: "Compile_and_test_app"
+        workspace:
+          clean: all
         displayName: "[JOB] Compile application"
         pool: "Windows_Pool"
         steps:
