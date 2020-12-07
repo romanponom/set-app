@@ -7,16 +7,13 @@ stages:
   - stage: "Compile_app_and_unit_tests"
     displayName: "[STAGE] Compile application and run unit tests"
     jobs:
-      - job: "Compile_app"
+      - job: "Compile_and_test_app"
         displayName: "[JOB] Compile application"
         pool: "Windows_Pool"
         steps:
           - script: ./gradlew clean compileTestJava
             displayName: "[SCRIPT] Run gradlew clean compileTestJava"
-      - job: "Unit_test"
-        displayName: "[JOB] Run unit tests"
-        pool: "Windows_Pool"
-        steps:
-          - checkout: none
           - script: ./gradlew db-service:test
             displayName: "[SCRIPT] Run unit test"
+          - script: ./gradlew componentTest
+            displayName: "[SCRIPT] Run component test"
