@@ -51,7 +51,7 @@ subprojects {
 
         testImplementation "au.com.dius:pact-jvm-provider-junit5:4.0.10"
         testImplementation "au.com.dius:pact-jvm-consumer-junit5:4.0.10"
-        //implementation "com.h2database:h2"
+        implementation "com.h2database:h2"
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         }

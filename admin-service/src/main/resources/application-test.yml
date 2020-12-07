@@ -11,3 +11,10 @@ feign:
       default:
         connectTimeout: 160000000
         readTimeout: 160000000
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: root
+    password: ""
+    driverClassName: org.h2.Driver
