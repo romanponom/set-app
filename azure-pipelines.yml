@@ -17,5 +17,5 @@ stages:
         displayName: "[JOB] Run unit tests"
         pool: "Windows_Pool"
         steps:
-          - script: ./gradlew :db-service test
+          - script: ./gradlew db-service:test
             displayName: "[SCRIPT] Run unit test"
