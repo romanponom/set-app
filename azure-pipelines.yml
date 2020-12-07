@@ -11,12 +11,11 @@ stages:
         displayName: "[JOB] Compile application"
         pool: "Windows_Pool"
         steps:
-          - script: ./gradlew clean build
-            displayName: "[SCRIPT] Run gradle clean build"
+          - script: ./gradlew clean compileTestJava
+            displayName: "[SCRIPT] Run gradlew clean compileTestJava"
       - job: "Unit_test"
         displayName: "[JOB] Run unit tests"
-        pool:
-          vmImage: 'ubuntu-latest'
+        pool: "Windows_Pool"
         steps:
-          - script: ./gradlew db-service:test
+          - script: ./gradlew :db-service test
             displayName: "[SCRIPT] Run unit test"
