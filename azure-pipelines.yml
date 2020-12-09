@@ -13,7 +13,7 @@ stages:
         displayName: "[JOB] Compile application"
         pool: "Ubuntu_Poll"
         steps:
-          - script: ./gradlew clean compileTestJava
+          - script: chmod +x gradlew; ./gradlew clean compileTestJava
             displayName: "[SCRIPT] Run gradlew clean compileTestJava"
           - script: ./gradlew db-service:test
             displayName: "[SCRIPT] Run unit test"
