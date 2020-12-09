@@ -12,7 +12,7 @@ out
 
 # Gradle
 .gradle
-**/gradlew
+
 **/build/
 /.idea/
 /build-cache/
