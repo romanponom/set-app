@@ -25,7 +25,7 @@ public class PactDbConsumerTest {
 
     @Pact(consumer = "db-consumer")
     public RequestResponsePact validateUserPact(PactDslWithProvider builder) {
-        System.setProperty("pact.rootDir", ".\\pacts");
+        System.setProperty("pact.rootDir", "./pacts");
         DslPart bodyResponse = new PactDslJsonBody()
                 .integerType("id", 1)
                 .stringType("name", "admin")
