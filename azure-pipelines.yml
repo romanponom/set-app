@@ -19,6 +19,6 @@ stages:
             displayName: "[SCRIPT] Run unit test"
           - script: ./gradlew componentTest
             displayName: "[SCRIPT] Run component test"
-          - script: docker-compose up -d
+          - script: sudo chmod +x /usr/local/bin/docker-compose; docker-compose up -d
             displayName: "[SCRIPT] Deploy app"
 
