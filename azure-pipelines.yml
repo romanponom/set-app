@@ -11,7 +11,7 @@ stages:
         workspace:
           clean: all
         displayName: "[JOB] Compile application"
-        pool: "Windows_Pool"
+        pool: "Ubuntu_Poll"
         steps:
           - script: ./gradlew clean compileTestJava
             displayName: "[SCRIPT] Run gradlew clean compileTestJava"
@@ -19,3 +19,6 @@ stages:
             displayName: "[SCRIPT] Run unit test"
           - script: ./gradlew componentTest
             displayName: "[SCRIPT] Run component test"
+          - script: docker-compose up -d
+            displayName: "[SCRIPT] Deploy app"
+
