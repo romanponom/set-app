@@ -20,7 +20,7 @@ public class ValidatorServiceIntegrationTest {
 
     @Test
     public void validateUserTest() {
-        User user = new User(1, "admin", "admin@ww.qq", true);
+        User user = new User(2L, "user", "user@ww.qq", true);
         ValidatedUser validatedUser = new ValidatedUser(true);
         assertThat(client.validateUser((long) 1, validatedUser)).isEqualTo(user);
     }
