@@ -37,7 +37,7 @@ stages:
             displayName: "[SCRIPT] Deploy pact broker"
           - script: sudo chmod +x gradlew; ./gradlew db-service:test; ./gradlew db-service:pactPublish
             displayName: "[SCRIPT] Publish pacts"
-          - script: sleep 120; sudo chmod +x gradlew; ./gradlew integrationTest
+          - script: sleep 60; sudo chmod +x gradlew; ./gradlew integrationTest
             displayName: "[SCRIPT] Run integration test"
           - script: sudo chmod +x gradlew; ./gradlew admin-service:test
             displayName: "[SCRIPT] Run contract test"
