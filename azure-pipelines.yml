@@ -9,8 +9,17 @@ stages:
     jobs:
       - job: "Build_test_push"
         displayName: "[JOB] Compile, build, test application and push images to docker hub"
-        pool: "Ubuntu_Poll"
+        pool:
+          vmImage: 'ubuntu-latest'
         steps:
+          - script: |
+              sudo apt update
+              sudo apt install openjdk-11-jre-headless --assume-yes
+              sudo apt install docker.io --assume-yes
+              sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose
+              sudo chmod +x /usr/bin/docker-compose
+              sudo ufw --force enable && sudo ufw allow 8084/tcp && sudo ufw allow 8282/tcp && sudo ufw allow 8761/tcp
+            displayName: "[PRE-SCRIPT] Set up vm"
           - script: sudo chmod +x gradlew; ./gradlew clean compileTestJava
             displayName: "[SCRIPT] Compile app"
           - script: ./gradlew db-service:test
@@ -29,8 +38,17 @@ stages:
     jobs:
       - job: "Pull_deploy_integration_pact"
         displayName: "[JOB] Pull images, deploy and run integration and pact tests"
-        pool: "Ubuntu_Poll2"
+        pool:
+          vmImage: 'ubuntu-latest'
         steps:
+          - script: |
+              sudo apt update
+              sudo apt install openjdk-11-jre-headless --assume-yes
+              sudo apt install docker.io --assume-yes
+              sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/bin/docker-compose
+              sudo chmod +x /usr/bin/docker-compose
+              sudo ufw --force enable && sudo ufw allow 8084/tcp && sudo ufw allow 8282/tcp && sudo ufw allow 8761/tcp
+            displayName: "[PRE-SCRIPT] Set up vm"
           - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.remote.yml up -d
             displayName: "[SCRIPT] Pull and deploy images"
           - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f pact-broker/docker-compose.yml up -d
