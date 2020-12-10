@@ -31,5 +31,5 @@ stages:
         displayName: "[JOB] Pull images, deploy and run integration tests"
         pool: "Ubuntu_Poll2"
         steps:
-          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.remote.yml up
+          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.remote.yml up -d
             displayName: "[SCRIPT] Pull and deploy images"
