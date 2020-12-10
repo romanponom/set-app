@@ -85,11 +85,19 @@ subprojects {
             compileClasspath += main.output + test.output
             runtimeClasspath += main.output + test.output
         }
+        integration {
+            java.srcDir "$projectDir/src/integration/java"
+            resources.srcDir "$projectDir/src/integration/resources"
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+        }
     }
 
     configurations {
         componentImplementation.extendsFrom testImplementation
         componentRuntime.extendsFrom testRuntime
+        integrationImplementation.extendsFrom testImplementation
+        integrationRuntime.extendsFrom testRuntime
     }
 
     task componentTest(type: Test) {
@@ -102,7 +110,18 @@ subprojects {
         }
     }
 
+    task integrationTest(type: Test) {
+        testClassesDirs = sourceSets.integration.output.classesDirs
+        classpath = sourceSets.integration.runtimeClasspath
+        useJUnitPlatform()
+        reports {
+            html.enabled true
+            junitXml.enabled = true
+        }
+    }
+
     check.dependsOn componentTest
+    check.dependsOn integrationTest
 
     task runBootJar(dependsOn: bootJar) {}
 }

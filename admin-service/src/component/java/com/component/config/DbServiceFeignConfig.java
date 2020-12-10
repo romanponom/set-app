@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @Configuration
 @EnableAutoConfiguration
-@RibbonClient(name = "db-service", configuration = RibbonConfig.class)
+@RibbonClient(name = "db-service", configuration = DbServiceRibbonConfig.class)
 public class DbServiceFeignConfig {
 
     @GetMapping("/api/all")
