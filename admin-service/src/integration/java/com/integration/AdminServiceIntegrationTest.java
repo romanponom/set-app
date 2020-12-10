@@ -62,7 +62,7 @@ public class AdminServiceIntegrationTest {
     @Order(1)
     @DisplayName("[INTEGRATION-TEST] Add user")
     public void addUserTest() {
-        assertThat(dbClient.addUser(firstValidatedUser)).isEqualTo(firstValidatedUser);
+        assertThat(dbClient.addUser(secondNotValidatedUser)).isEqualTo(secondNotValidatedUser);
     }
 
     /*@Test
