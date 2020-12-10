@@ -20,7 +20,9 @@ stages:
               sudo chmod +x /usr/bin/docker-compose
               sudo ufw --force enable && sudo ufw allow 8084/tcp && sudo ufw allow 8282/tcp && sudo ufw allow 8761/tcp
             displayName: "[PRE-SCRIPT] Set up vm"
-          - script: sudo chmod +x gradlew; ./gradlew clean compileTestJava
+          - script: |
+              sudo chmod +x gradlew
+              ./gradlew clean compileTestJava
             displayName: "[SCRIPT] Compile app"
           - script: ./gradlew db-service:test
             displayName: "[SCRIPT] Run unit test for db-service"
@@ -28,9 +30,15 @@ stages:
             displayName: "[SCRIPT] Run component test"
           - script: ./gradlew runBootJar
             displayName: "[SCRIPT] Build jar"
-          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.push.yml build;
+          - script: |
+              sudo chmod +x /usr/bin/docker-compose
+              sudo docker-compose -f docker-compose.push.yml build;
             displayName: "[SCRIPT] Build images"
-          - script: sudo chmod 666 /var/run/docker.sock; docker login -u "roman626" -p "626mabasA626!" docker.io; sudo docker-compose -f docker-compose.push.yml push; docker logout
+          - script: |
+              sudo chmod 666 /var/run/docker.sock
+              docker login -u "roman626" -p "626mabasA626!" docker.io
+              sudo docker-compose -f docker-compose.push.yml push
+              docker logout
             displayName: "[SCRIPT] Push images"
 
   - stage: "Pull_deploy_integration_pact"
@@ -49,15 +57,30 @@ stages:
               sudo chmod +x /usr/bin/docker-compose
               sudo ufw --force enable && sudo ufw allow 8084/tcp && sudo ufw allow 8282/tcp && sudo ufw allow 8761/tcp
             displayName: "[PRE-SCRIPT] Set up vm"
-          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.remote.yml up -d
+          - script: |
+              sudo chmod +x /usr/bin/docker-compose
+              sudo docker-compose -f docker-compose.remote.yml up -d
             displayName: "[SCRIPT] Pull and deploy images"
-          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f pact-broker/docker-compose.yml up -d
+          - script: |
+              sudo chmod +x /usr/bin/docker-compose
+              sudo docker-compose -f pact-broker/docker-compose.yml up -d
             displayName: "[SCRIPT] Deploy pact broker"
-          - script: sudo chmod +x gradlew; ./gradlew db-service:test; ./gradlew db-service:pactPublish
+          - script: |
+              sleep 30
+              sudo chmod +x gradlew
+              ./gradlew db-service:test
+              ./gradlew db-service:pactPublish
             displayName: "[SCRIPT] Publish pacts"
-          - script: sleep 60; sudo chmod +x gradlew; ./gradlew integrationTest
+          - script: |
+              sleep 60
+              sudo chmod +x gradlew
+              ./gradlew integrationTest
             displayName: "[SCRIPT] Run integration test"
-          - script: sudo chmod +x gradlew; ./gradlew admin-service:test
+          - script: |
+              sudo chmod +x gradlew
+              ./gradlew admin-service:test
             displayName: "[SCRIPT] Run contract test"
-          - script: sudo docker container stop $(docker container ls -aq) && sudo docker container rm $(docker container ls -aq)
+          - script:
+              sudo docker container stop $(docker container ls -aq)
+              sudo docker container rm $(docker container ls -aq)
             displayName: "[SCRIPT] Stop and remove containers"
