@@ -80,8 +80,6 @@ services:
       - validator-service
 
   gateway-service:
-    build:
-      gateway-service/
     image: roman626/gateway-service
     ports:
       - 8766:8766
