@@ -4,7 +4,7 @@ pact {
     publish {
         def path = "${project.projectDir}"
         pactDirectory = path + '/pacts'
-        pactBrokerUrl = 'http://localhost:8282'
+        pactBrokerUrl = 'http://127.0.0.1:8282'
     }
 }
 

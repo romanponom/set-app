@@ -6,7 +6,6 @@ import com.admin.entity.User;
 import com.admin.entity.ValidatedUser;
 import com.integration.config.DbServiceFeignConfig;
 import com.integration.config.ValidatorServiceFeignConfig;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -32,7 +31,6 @@ public class AdminServiceIntegrationTest {
     private DBClient dbClient;
     @Autowired
     private ValidatorClient validatorClient;
-    private final ObjectMapper mapper = new ObjectMapper();
     private List<User> users;
     private User secondNotValidatedUser;
     private User firstValidatedUser;
@@ -46,7 +44,7 @@ public class AdminServiceIntegrationTest {
         users.add(secondNotValidatedUser);
     }
 
-    @Test
+    /*@Test
     @Order(4)
     @DisplayName("[INTEGRATION-TEST] Get all users")
     public void getAllUsersTest() {
@@ -58,7 +56,7 @@ public class AdminServiceIntegrationTest {
     @DisplayName("[INTEGRATION-TEST] Get user")
     public void getUserTest() {
         assertThat(dbClient.getUserById(firstValidatedUser.getId())).isEqualTo(firstValidatedUser);
-    }
+    }*/
 
     @Test
     @Order(1)
@@ -67,7 +65,7 @@ public class AdminServiceIntegrationTest {
         assertThat(dbClient.addUser(firstValidatedUser)).isEqualTo(firstValidatedUser);
     }
 
-    @Test
+    /*@Test
     @Order(2)
     @DisplayName("[INTEGRATION-TEST] Update user")
     public void updateUserTest() {
@@ -99,5 +97,5 @@ public class AdminServiceIntegrationTest {
         User user = new User(secondNotValidatedUser.getId(),
                 secondNotValidatedUser.getName(), secondNotValidatedUser.getEmail(), validatedUser.isValidated());
         assertThat(validatorClient.validateUserById(secondNotValidatedUser.getId(), validatedUser)).isEqualTo(user);
-    }
+    }*/
 }
