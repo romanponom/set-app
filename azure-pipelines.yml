@@ -19,8 +19,10 @@ stages:
             displayName: "[SCRIPT] Run component test"
           - script: ./gradlew runBootJar
             displayName: "[SCRIPT] Build jar"
-          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.push.yml build; docker login -u "roman626" -p "626mabasA626!" docker.io; sudo docker-compose -f docker-compose.push.yml push
-            displayName: "[SCRIPT] Build and push images"
+          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.push.yml build;
+            displayName: "[SCRIPT] Build images"
+          - script: sudo chmod 666 /var/run/docker.sock; docker login -u "roman626" -p "626mabasA626!" docker.io; sudo docker-compose -f docker-compose.push.yml push
+            displayName: "[SCRIPT] Push images"
 
   - stage: "Pull_deploy_integration"
     displayName: "[STAGE] Pull images, deploy and run integration tests"
