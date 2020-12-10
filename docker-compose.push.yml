@@ -1,0 +1,34 @@
+version: "3.5"
+
+services:
+  config-server:
+    build:
+      config-server/
+    image: roman626/config-server
+
+  registration-server:
+    build:
+      registration-server/
+    image: roman626/registration-server
+
+  db-service:
+    build:
+      db-service/
+    image: roman626/db-service
+
+  validator-service:
+    build:
+      validator-service/
+    image: roman626/validator-service
+
+  admin-service:
+    build: admin-service/
+    image: roman626/admin-service
+
+  gateway-service:
+    build:
+      gateway-service/
+    image: roman626/gateway-service
+
+
+

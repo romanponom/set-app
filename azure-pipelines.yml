@@ -4,23 +4,30 @@ trigger:
   - master
 
 stages:
-  - stage: "Compile_app_and_unit_tests"
-    displayName: "[STAGE] Compile application and run unit tests"
+  - stage: "Build_test_push"
+    displayName: "[STAGE] Compile, build, test application and push images to docker hub"
     jobs:
-      - job: "Compile_and_test_app"
-        workspace:
-          clean: all
-        displayName: "[JOB] Compile application"
+      - job: "Build_test_push"
+        displayName: "[JOB] Compile, build, test application and push images to docker hub"
         pool: "Ubuntu_Poll"
         steps:
-          - script: chmod +x gradlew; ./gradlew clean compileTestJava
-            displayName: "[SCRIPT] Run gradlew clean compileTestJava"
+          - script: sudo chmod +x gradlew; ./gradlew clean compileTestJava
+            displayName: "[SCRIPT] Compile app"
           - script: ./gradlew db-service:test
-            displayName: "[SCRIPT] Run unit test"
+            displayName: "[SCRIPT] Run unit test for db-service"
           - script: ./gradlew componentTest
             displayName: "[SCRIPT] Run component test"
           - script: ./gradlew runBootJar
             displayName: "[SCRIPT] Build jar"
-          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose up -d
-            displayName: "[SCRIPT] Deploy app"
+          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.push.yml build; sudo docker-compose -f docker-compose.push.yml push;
+            displayName: "[SCRIPT] Build and push images"
 
+  - stage: "Pull_deploy_integration"
+    displayName: "[STAGE] Pull images, deploy and run integration tests"
+    jobs:
+      - job: "Pull_deploy_integration"
+        displayName: "[JOB] Pull images, deploy and run integration tests"
+        pool: "Ubuntu_Poll2"
+        steps:
+          - script: sudo chmod +x /usr/bin/docker-compose; sudo docker-compose -f docker-compose.remote.yml up
+            displayName: "[SCRIPT] Pull and deploy images"

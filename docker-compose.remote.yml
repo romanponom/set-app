@@ -1,0 +1,97 @@
+version: "3.5"
+
+networks:
+  set-network:
+    name: set-network
+
+services:
+  config-server:
+    image: roman626/config-server
+    hostname: config-server
+    ports:
+      - 8888:8888
+    networks:
+       - set-network
+
+  registration-server:
+    image: roman626/registration-server
+    hostname: registration-server
+    ports:
+      - 8761:8761
+    networks:
+      - set-network
+    depends_on:
+      - config-server
+
+  db-host:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=user
+      - MYSQL_USER=set-app
+      - MYSQL_PASSWORD=Password12345!
+    networks:
+      - set-network
+    ports:
+      - 3307:3306
+
+  db-service:
+    image: roman626/db-service
+    hostname: db-service
+    restart: on-failure
+    ports:
+      - 8082:8082
+    networks:
+      - set-network
+    environment:
+      - DATABASE_HOST=db-host
+      - DATABASE_USER=set-app
+      - DATABASE_PASSWORD=Password12345!
+      - DATABASE_NAME=user
+      - DATABASE_PORT=3306
+    depends_on:
+      - db-host
+      - config-server
+      - registration-server
+
+  validator-service:
+    image: roman626/validator-service
+    hostname: validator-service
+    ports:
+      - 8083:8083
+    networks:
+      - set-network
+    depends_on:
+      - config-server
+      - registration-server
+      - db-service
+
+  admin-service:
+    image: roman626/admin-service
+    hostname: admin-service
+    ports:
+      - 8084:8084
+    networks:
+      - set-network
+    depends_on:
+      - config-server
+      - registration-server
+      - db-service
+      - validator-service
+
+  gateway-service:
+    build:
+      gateway-service/
+    image: roman626/gateway-service
+    ports:
+      - 8766:8766
+    networks:
+      - set-network
+    depends_on:
+      - config-server
+      - registration-server
+      - db-service
+      - validator-service
+      - admin-service
+
+
