@@ -22,6 +22,6 @@ public class DbClientFeignConfig {
 
     @PatchMapping("/api/validate-user/{id}")
     public User validateUser(@PathVariable("id") Long id, @RequestBody ValidatedUser validated) {
-        return new User(1, "aaa", "aaa@aa.qq", true);
+        return new User(2L, "user", "user@ww.qq", true);
     }
 }
