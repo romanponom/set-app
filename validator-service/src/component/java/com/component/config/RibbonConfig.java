@@ -13,6 +13,6 @@ public class RibbonConfig {
 
     @Bean
     public ServerList<Server> serverList() {
-        return new StaticServerList<>(new Server("127.0.0.1", port), new Server("127.0.0.1", port));
+        return new StaticServerList<>(new Server("127.0.0.1", port));
     }
 }

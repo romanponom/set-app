@@ -15,6 +15,6 @@ public class ValidatorServiceRibbonConfig {
 
     @Bean
     public ServerList<Server> serverList() {
-        return new StaticServerList<>(new Server("127.0.0.1", 8083));
+        return new StaticServerList<>(new Server("127.0.0.1", port));
     }
 }
