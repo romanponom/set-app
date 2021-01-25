@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-service
+  labels:
+    app: db-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-service
+  template:
+    metadata:
+      labels:
+        app: db-service
+    spec:
+      containers:
+        - name: db-service
+          image: roman626/db-service
+          env:
+          - name: DATABASE_HOST
+            value: "db-host"
+          - name: DATABASE_USER
+            value: "set-app"
+          - name: DATABASE_PASSWORD
+            value: "Password12345!"
+          - name: DATABASE_NAME
+            value: "user"
+          - name: DATABASE_PORT
+            value: "3306"
+          ports:
+          - containerPort: 8082
+          livenessProbe:
+            httpGet:
+              path: /api/all
+              port: 8082
+            initialDelaySeconds: 90
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/all
+              port: 8082
+            initialDelaySeconds: 90
+            periodSeconds: 10
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  type: ClusterIP
+  selector:
+    app: db-service
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
