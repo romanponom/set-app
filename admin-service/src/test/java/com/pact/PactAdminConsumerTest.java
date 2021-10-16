@@ -1,4 +1,4 @@
-package pact;
+package com.pact;
 
 import au.com.dius.pact.consumer.MockServer;
 import au.com.dius.pact.consumer.dsl.DslPart;
@@ -20,17 +20,17 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "admin-provider", port = "1234")
-public class PactDbConsumerTest {
+@PactTestFor(providerName = "db-provider", port = "1234")
+public class PactAdminConsumerTest {
 
-    @Pact(consumer = "db-consumer")
+    @Pact(consumer = "admin-consumer")
     public RequestResponsePact validateUserPact(PactDslWithProvider builder) {
         System.setProperty("pact.rootDir", "./pacts");
         DslPart bodyResponse = new PactDslJsonBody()
                 .integerType("id", 1)
                 .stringType("name", "admin")
                 .stringType("email", "admin@ee.ee")
-                .booleanType("validated", true);
+                .booleanValue("validated", true);
 
 
         return builder

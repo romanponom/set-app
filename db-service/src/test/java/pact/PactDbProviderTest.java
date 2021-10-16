@@ -1,36 +1,30 @@
-package com.pact;
+package pact;
 
 import au.com.dius.pact.provider.junit.Consumer;
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
 import au.com.dius.pact.provider.junit.loader.PactBroker;
+import au.com.dius.pact.provider.junit.loader.PactBrokerAuth;
 import au.com.dius.pact.provider.junit5.HttpTestTarget;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
-import com.admin.AdminApplication;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
-@Provider("admin-provider")
-@Consumer("db-consumer")
+@Provider("db-provider")
+@Consumer("admin-consumer")
 @PactBroker(host = "localhost", port = "8282")
-@SpringBootTest(classes = AdminApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PactAdminProviderTest {
+public class PactDbProviderTest {
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
         context.verifyInteraction();
     }
-
-    @LocalServerPort
-    private int port;
 
     @BeforeAll
     static void enablePublishingPact() {
