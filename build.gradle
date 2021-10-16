@@ -62,6 +62,8 @@ subprojects {
         implementation "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
+        testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.5'
+
     }
 
     dependencyManagement {
@@ -124,4 +126,11 @@ subprojects {
     check.dependsOn integrationTest
 
     task runBootJar(dependsOn: bootJar) {}
+    pact {
+        publish {
+            def path = "${project.projectDir}"
+            pactDirectory = path + '/pacts'
+            pactBrokerUrl = 'http://127.0.0.1:8282'
+        }
+    }
 }
