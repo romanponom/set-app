@@ -4,6 +4,7 @@ import com.admin.client.DBClient;
 import com.admin.client.ValidatorClient;
 import com.admin.entity.User;
 import com.admin.entity.ValidatedUser;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -79,7 +80,7 @@ public class AdminApplicationController {
         return "validate-user";
     }
 
-    @PostMapping("/validate-user/{id}")
+    @PutMapping("/validate-user/{id}")
     public String validateUser(@PathVariable Long id, Model model) {
         dbClient.getUserById(id);
         validatorClient.validateUserById(id, new ValidatedUser(true));

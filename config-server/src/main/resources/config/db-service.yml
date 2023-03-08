@@ -25,14 +25,14 @@ endpoints:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     generate-ddl: true
     dialect: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driver-class-name: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://db-host:3306/user?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
-    username: set-app
-    password: Password12345!
+    url: "jdbc:mysql://localhost:3306/user?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false"
+    username: root
+    password: root
     platform: mysql
     testWhileIdle: true
     validationQuery: SELECT 1

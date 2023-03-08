@@ -1,14 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.3.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'org.springframework.boot' version '3.0.4'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
     id "au.com.dius.pact" version "4.1.0"
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven { url 'http://repo.spring.io/libs-release' }
+    maven { url 'https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates' }
 }
 
 subprojects {
@@ -16,54 +15,62 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'au.com.dius.pact'
+
     group 'set-app'
     version '1.0-SNAPSHOT'
-
-    sourceCompatibility = 1.8
+    sourceCompatibility = 17
 
     repositories {
-        mavenLocal()
         mavenCentral()
-        maven { url 'http://repo.spring.io/libs-release' }
+        maven { url 'https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates' }
     }
 
     ext {
-        set('springCloudVersion', "Hoxton.SR8")
-        set('springCloudStarterFeignVersion', "1.4.7.RELEASE")
+        set('springCloudVersion', "2022.0.1")
         set('feignVersion', "11.0")
-        set('lombokVersion', "1.18.16")
+        set('lombokVersion', "1.18.22")
+        set('jacksonVersion', "2.14.2")
+        set('pactVersion', "4.0.10")
+        set('okhttpVersion', "5.0.0-alpha.11")
+        set('springRetryVersion', "1.2.4.RELEASE")
+        set('groovyVersion', "4.0.0")
+        set('netflixRibbonVersion', "2.2.10.RELEASE")
     }
 
     dependencies {
-        implementation "org.springframework.retry:spring-retry:1.2.4.RELEASE"
 
         implementation "org.springframework.boot:spring-boot-starter-webflux"
         implementation "org.springframework.boot:spring-boot-starter-actuator"
         implementation "org.springframework.boot:spring-boot-starter-aop"
 
+        implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
         implementation "org.springframework.cloud:spring-cloud-starter-config"
         implementation "org.springframework.cloud:spring-cloud-starter-openfeign"
-        implementation "org.springframework.cloud:spring-cloud-starter-netflix-ribbon"
         implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server"
         implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
-        implementation "io.github.openfeign:feign-jackson:${feignVersion}"
-        implementation "io.github.openfeign:feign-httpclient:${feignVersion}"
+        implementation "org.springframework.cloud:spring-cloud-starter-netflix-ribbon:${netflixRibbonVersion}"
 
-        testImplementation "au.com.dius:pact-jvm-provider-junit5:4.0.10"
-        testImplementation "au.com.dius:pact-jvm-consumer-junit5:4.0.10"
         implementation "com.h2database:h2"
-        testImplementation('org.springframework.boot:spring-boot-starter-test') {
-            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-        }
-        //testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.1"
-        testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock"
-        testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
-
+        implementation "com.squareup.okhttp3:okhttp:${okhttpVersion}"
+        implementation "org.springframework.retry:spring-retry:${springRetryVersion}"
+        implementation "org.apache.groovy:groovy:${groovyVersion}"
+        /*implementation "io.github.openfeign:feign-jackson:${feignVersion}"
+        implementation "io.github.openfeign:feign-httpclient"
+        implementation "io.github.openfeign:feign-okhttp"
+        testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.1"*/
         implementation "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-        testImplementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.5'
 
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+        testImplementation "au.com.dius:pact-jvm-provider-junit5:${pactVersion}"
+        testImplementation "au.com.dius:pact-jvm-consumer-junit5:${pactVersion}"
+        testImplementation "org.springframework.cloud:spring-cloud-contract-wiremock"
+        testImplementation "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
+        testImplementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:${jacksonVersion}"
+        testImplementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
     }
 
     dependencyManagement {
@@ -126,6 +133,7 @@ subprojects {
     check.dependsOn integrationTest
 
     task runBootJar(dependsOn: bootJar) {}
+
     pact {
         publish {
             def path = "${project.projectDir}"

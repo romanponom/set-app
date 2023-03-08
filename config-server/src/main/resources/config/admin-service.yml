@@ -33,6 +33,9 @@ endpoints:
   shutdown:
     enabled: true
 
-#feign:
-#  hystrix:
-#    enabled: true
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000

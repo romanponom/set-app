@@ -29,7 +29,7 @@ public class PactAdminConsumerTest {
         DslPart bodyResponse = new PactDslJsonBody()
                 .integerType("id", 1)
                 .stringType("name", "admin")
-                .stringType("email", "admin@ee.ee")
+                .stringType("email", "admin@ee.ww")
                 .booleanValue("validated", true);
 
 
@@ -52,7 +52,7 @@ public class PactAdminConsumerTest {
         assertThat(httpResponse.getStatusLine().getStatusCode()).isEqualTo(200);
         assertThat(JsonPath.read(httpResponse.getEntity().getContent(), "$.id").toString()).isEqualTo("1");
         assertThat(JsonPath.read(httpResponse.getEntity().getContent(), "$.name").toString()).isEqualTo("admin");
-        assertThat(JsonPath.read(httpResponse.getEntity().getContent(), "$.email").toString()).isEqualTo("admin@ee.ee");
+        assertThat(JsonPath.read(httpResponse.getEntity().getContent(), "$.email").toString()).isEqualTo("admin@ee.ww");
         assertThat(JsonPath.read(httpResponse.getEntity().getContent(), "$.validated").toString()).isEqualTo("true");
     }
 
